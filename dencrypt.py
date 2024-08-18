@@ -4,13 +4,13 @@
 import click
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
-from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Protocol.KDF import scrypt
 from Crypto.Util.Padding import pad, unpad
 import base64
 
 
 def derive_key(passphrase, salt, key_length=32, iterations=100000):
-    return PBKDF2(passphrase, salt, dkLen=key_length, count=iterations)
+    return scrypt(passphrase, salt, key_length, N=2**14, r=8, p=1)
 
 
 @click.group()
